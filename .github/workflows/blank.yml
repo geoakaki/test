@@ -13,21 +13,29 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-dev:
+  set_vars:
     runs-on: self-hosted
     environment: dev
     container:
       image: alpine
       # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Print Secret
-        run: echo ${{ secrets.AKO }}
-  build-prod:
+      - name: Set env vars (dev)
+        if: endsWith(github.ref, '/dev')
+        run: |
+          echo "AKAKI=DEV-VAR" >> $GITHUB_ENV
+          echo "ss=dev" >> $GITHUB_ENV
+      - name: Set env vars (prod)
+        if: endsWith(github.ref, '/prod')
+        run: |
+          echo "AKAKI=PROD-VAR" >> $GITHUB_ENV
+          echo "ss=prod" >> $GITHUB_ENV
+          
+  build:
     runs-on: self-hosted
-    environment: prod
+    environment: ${{ env.ss }}
     container:
       image: alpine
-      # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Print Secret
-        run: echo ${{ secrets.AKO }}
+        run: echo ${{ env.AKAKI }}
