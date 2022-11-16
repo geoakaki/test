@@ -3,39 +3,25 @@
 name: CI
 on:
   push:
-    branches: [ "dev","prod" ]
+    branches: [ master ]
   pull_request:
-    branches: [ "dev","prod" ]
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
 jobs:
   set_vars:
     runs-on: self-hosted
-    environment: dev
     container:
       image: alpine
-      # Steps represent a sequence of tasks that will be executed as part of the job
+    
     steps:
-      - name: Set env vars (dev)
-        if: endsWith(github.ref, '/dev')
-        run: |
-          echo "AKAKI=DEV-VAR" >> $GITHUB_ENV
-          echo "ss=dev" >> $GITHUB_ENV
-      - name: Set env vars (prod)
-        if: endsWith(github.ref, '/prod')
-        run: |
-          echo "AKAKI=PROD-VAR" >> $GITHUB_ENV
-          echo "ss=prod" >> $GITHUB_ENV
+      - name: Test Action
+        uses: geoakaki/actions/testaction@v1
+        with:
+          dotnet-version: 5.0.x
+          project-path: src/DemoReusableTemplates.csproj
           
-  build:
-    runs-on: self-hosted
-    environment: ${{ env.ss }}
-    container:
-      image: alpine
-    steps:
-      - name: Print Secret
-        run: echo ${{ env.AKAKI }}
