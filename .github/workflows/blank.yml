@@ -30,6 +30,8 @@ jobs:
         run: |
           echo "AKAKI=PROD-VAR" >> $GITHUB_ENV
           echo "ss=prod" >> $GITHUB_ENV
+      - name: Print Var
+        run: echo ${{ env.AKAKI }}
           
   build:
     runs-on: self-hosted
@@ -38,4 +40,4 @@ jobs:
       image: alpine
     steps:
       - name: Print Secret
-        run: echo ${{ env.AKAKI }}
+        run: echo ${{ env.set_vars.AKAKI }}
