@@ -33,7 +33,6 @@ jobs:
           
   build:
     runs-on: self-hosted
-    environment: ${{ env.ss }}
     container:
       image: alpine
     steps:
