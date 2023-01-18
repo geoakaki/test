@@ -46,8 +46,7 @@ jobs:
     - name: Print Var 2
       shell: sh
       run: |
-          echo test2
-          echo ${{ env.SVAR }}
+          echo ${{ vars.SVAR }}
           echo ${{ needs.check_env.outputs.env_name }}
 
          
