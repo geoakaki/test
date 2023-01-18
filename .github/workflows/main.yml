@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - dev
   workflow_dispatch:
 env:
   TVAR1: "test var"
@@ -19,8 +20,8 @@ jobs:
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ github.ref }}" = "refs/heads/master" ]; then
             echo "::set-output name=env_name::Production"
-          elif [ "${{ github.ref }}" = "refs/heads/develop" ]; then
-            echo "::set-output name=env_name::Test"
+          elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+            echo "::set-output name=env_name::Dev"
           else
              echo "::set-output name=env_name::Features"
           fi         
