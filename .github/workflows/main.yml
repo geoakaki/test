@@ -13,6 +13,8 @@ env:
 jobs:
   check_env:
     runs-on: ubuntu-latest
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}  
     steps:
       - name: Some check on branch
         id: branch_check
@@ -25,7 +27,7 @@ jobs:
           else
              echo "::set-output name=env_name::Features"
           fi         
-          
+  
       - name: Use variable setup in previous step
         run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
         
