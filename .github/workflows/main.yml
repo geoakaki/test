@@ -27,9 +27,6 @@ jobs:
           else
              echo "::set-output name=env_name::Features"
           fi         
-  
-      - name: Use variable setup in previous step
-        run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
         
 
       - name: Print Var 1
