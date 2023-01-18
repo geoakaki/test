@@ -49,5 +49,6 @@ jobs:
           echo test2
           echo $TVAR2
           echo $SVAR
+          echo ${{ needs.check_env.outputs.env_name }}
 
          
