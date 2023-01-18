@@ -13,19 +13,21 @@ env:
 jobs:
   check_env:
     runs-on: ubuntu-latest
+    outputs:
+      env_name: ${{ steps.branch_check.outputs.env_name }}  
     steps:
       - name: Some check on branch
         id: branch_check
         run: |
           echo "Running on branch ${{ github.ref }}"
           if [ "${{ github.ref }}" = "refs/heads/master" ]; then
-            echo "::set-output name=env_name::Production"
+            echo "::set-output name=env_name::prod"
           elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
-            echo "::set-output name=env_name::Dev"
+            echo "::set-output name=env_name::dev"
           else
              echo "::set-output name=env_name::Features"
           fi         
-          
+  
       - name: Use variable setup in previous step
         run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
         
@@ -38,11 +40,13 @@ jobs:
   publish:
     needs: check_env
     runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.check_env.outputs.env_name }}
     steps:
     - name: Print Var 2
       shell: sh
       run: |
-          echo test2
-          echo $TVAR2
+          echo ${{ vars.SVAR }}
+          echo ${{ needs.check_env.outputs.env_name }}
 
          
