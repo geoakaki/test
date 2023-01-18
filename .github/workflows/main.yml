@@ -48,7 +48,9 @@ jobs:
       run: |
           echo test2
           echo $TVAR2
-          echo $SVAR
+          echo ${{ SVAR }}
+          echo ${{ env.SVAR }}
+          echo ${{ var.SVAR }}
           echo ${{ needs.check_env.outputs.env_name }}
 
          
