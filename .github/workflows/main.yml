@@ -39,7 +39,7 @@ jobs:
     needs: check_env
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ needs.build.outputs.env_name }}
+      name: ${{ needs.check_env.outputs.env_name }}
     steps:
     - name: Print Var 2
       shell: sh
