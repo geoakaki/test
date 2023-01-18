@@ -1,0 +1,48 @@
+name: Test Actions
+on:
+  push:
+    branches:
+      - master
+      - dev
+  workflow_dispatch:
+env:
+  TVAR1: "test var"
+  TVAR2: "test var"
+
+
+jobs:
+  check_env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Some check on branch
+        id: branch_check
+        run: |
+          echo "Running on branch ${{ github.ref }}"
+          if [ "${{ github.ref }}" = "refs/heads/master" ]; then
+            echo "::set-output name=env_name::Production"
+          elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+            echo "::set-output name=env_name::Dev"
+          else
+             echo "::set-output name=env_name::Features"
+          fi         
+          
+      - name: Use variable setup in previous step
+        run: echo "I'm using variable ${{ steps.branch_check.outputs.env_name }}"
+        
+
+      - name: Print Var 1
+        shell: sh
+        run: |
+          echo test1
+          echo $TVAR1  
+  publish:
+    needs: check_env
+    runs-on: ubuntu-latest
+    steps:
+    - name: Print Var 2
+      shell: sh
+      run: |
+          echo test2
+          echo $TVAR2
+
+         
