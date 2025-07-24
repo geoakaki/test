@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  test-stage:
     runs-on: [self-hosted, databases]
     container:
       image: ubuntu:22.04
