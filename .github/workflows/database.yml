@@ -9,9 +9,11 @@ on:
 jobs:
   test-stage:
     runs-on: self-hosted
-    container:
-      image: alpine
+    #container:
+    #  image: alpine
     steps:
       - uses: actions/checkout@v3
+      - name: Docker Version
+        run: docker version
       - name: Install curl
         run: echo test
