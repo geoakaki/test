@@ -9,6 +9,8 @@ on:
 jobs:
   test-stage:
     runs-on: self-hosted
+    container:
+      image: alpine
     steps:
       - uses: actions/checkout@v3
       - name: Install curl
