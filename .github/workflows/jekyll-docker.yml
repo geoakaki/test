@@ -1,0 +1,17 @@
+name: Test Acction
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    container:
+      image: ubuntu:22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install curl
+        run: apt update && apt install -y curl
