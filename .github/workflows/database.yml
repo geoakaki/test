@@ -1,19 +1,21 @@
-name: Test Acction
+name: PR Branch Info
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
+    types: [closed]
+    branches: ["**"]
 
 jobs:
-  test-stage:
+  print-branch-info:
+    if: github.event.pull_request.merged == true
     runs-on: self-hosted
-    #container:
-    #  image: alpine
     steps:
-      - uses: actions/checkout@v3
-      - name: Docker Version
-        run: docker version
-      - name: Install curl
-        run: echo test
+      - name: Print Branch Information
+        run: |
+          echo "===== PR Merge Information ====="
+          echo "Current Branch: ${{ github.ref_name }}"
+          echo "Source Branch (Head): ${{ github.event.pull_request.head.ref }}"
+          echo "Destination Branch (Base): ${{ github.event.pull_request.base.ref }}"
+          echo "PR Number: ${{ github.event.pull_request.number }}"
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          echo "================================"
